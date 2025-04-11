@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <img src="BonesForge02.jpg" alt="Bones Forge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bones Forge Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: black;
+            color: white;
+            margin-top: 5%;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        input {
+            padding: 5px;
+            font-size: 1rem;
+        }
+        #progressBarContainer {
+            width: 80%;
+            margin: 50px auto;
+            background-color: #333;
+            border-radius: 25px;
+        }
+        #progressBar {
+            width: 0;
+            height: 50px;
+            background-color: orange;
+            border-radius: 25px;
+        }
+        #countdown {
+            font-size: 2rem;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bones Forge Countdown Timer</h1>
+    
+    <div>
+        <input type="number" id="timeInput" placeholder="Enter minutes" min="1">
+        <button onclick="startCustomCountdown()">Start Custom Time</button>
+    </div>
+    <div>
+        <button onclick="pauseCountdown()">Pause</button>
+        <button onclick="resumeCountdown()">Resume</button>
+    </div>
+    <div id="progressBarContainer">
+        <div id="progressBar"></div>
+    </div>
+    <div id="countdown"></div>
+    <audio id="alertSound" src="gong.mp3"></audio> <!-- Example alert sound -->
+    <script>
+        let countdownInterval, targetTime, remainingTime, paused = false;
+
+        function startCountdown(minutes) {
+            clearInterval(countdownInterval);
+            targetTime = new Date().getTime() + minutes * 60 * 1000;
+            remainingTime = minutes * 60 * 1000;
+            paused = false;
+            updateProgressBar(0);
+            countdownInterval = setInterval(updateCountdown, 1000);
+        }
+
+        function startCustomCountdown() {
+            const timeInput = document.getElementById("timeInput").value;
+            if (!timeInput || timeInput <= 0) {
+                alert("Please enter a valid number of minutes.");
+                return;
+            }
+            startCountdown(Number(timeInput));
+        }
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            remainingTime = targetTime - now;
+
+            const mins = Math.floor(remainingTime / (1000 * 60));
+            const secs = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+            document.getElementById("countdown").innerHTML = `${mins}m ${secs}s`;
+
+            const totalTime = paused ? remainingTime : document.getElementById("timeInput").value * 60 * 1000 || 0;
+            updateProgressBar(((totalTime - remainingTime) / totalTime) * 100);
+
+            if (remainingTime <= 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown").innerHTML = "Time's up!";
+                document.getElementById("alertSound").play();
+            }
+        }
+
+        function pauseCountdown() {
+            if (!paused) {
+                clearInterval(countdownInterval);
+                paused = true;
+            }
+        }
+
+        function resumeCountdown() {
+            if (paused) {
+                paused = false;
+                targetTime = new Date().getTime() + remainingTime;
+                countdownInterval = setInterval(updateCountdown, 1000);
+            }
+        }
+
+        function updateProgressBar(percent) {
+            document.getElementById("progressBar").style.width = `${percent}%`;
+        }
+    </script>
+</body>
+</html>
