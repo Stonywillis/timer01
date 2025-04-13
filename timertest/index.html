@@ -57,14 +57,17 @@
     </div>
     <div id="countdown"></div>
     <audio id="alertSound" src="gong.mp3"></audio> <!-- Example alert sound -->
+    <audio id="minuteSound" src="hammer-strike.mp3"></audio> <!-- Sound that plays every minute -->
     <script>
         let countdownInterval, targetTime, remainingTime, paused = false;
+        let elapsedMinutes = 0;
 
         function startCountdown(minutes) {
             clearInterval(countdownInterval);
             targetTime = new Date().getTime() + minutes * 60 * 1000;
             remainingTime = minutes * 60 * 1000;
             paused = false;
+            elapsedMinutes = 0; // Reset elapsed minutes
             updateProgressBar(0);
             countdownInterval = setInterval(updateCountdown, 1000);
         }
@@ -89,6 +92,15 @@
 
             const totalTime = paused ? remainingTime : document.getElementById("timeInput").value * 60 * 1000 || 0;
             updateProgressBar(((totalTime - remainingTime) / totalTime) * 100);
+
+            // Play sound every minute, only if there is remaining time
+            if (remainingTime > 0) {
+                const newElapsedMinutes = Math.floor((totalTime - remainingTime) / (1000 * 60));
+                if (newElapsedMinutes > elapsedMinutes) {
+                    document.getElementById("minuteSound").play();
+                    elapsedMinutes = newElapsedMinutes;
+                }
+            }
 
             if (remainingTime <= 0) {
                 clearInterval(countdownInterval);
