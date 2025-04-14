@@ -105,7 +105,7 @@
     // Play sound every minute if toggle is enabled
     if (remainingTime > 0) {
         const newElapsedMinutes = Math.floor((totalTime - remainingTime) / (1000 * 60));
-        const toggleChecked = document.getElementById("toggleMinuteSound").unchecked;
+        const toggleChecked = document.getElementById("toggleMinuteSound").checked;
 
         if (newElapsedMinutes > elapsedMinutes && toggleChecked) {
             document.getElementById("minuteSound").play();
