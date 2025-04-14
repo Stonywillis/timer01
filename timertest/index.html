@@ -12,7 +12,7 @@
             background-color: black;
             color: white;
             margin-top: 5%;
-        }
+        }                                                  
         button {
             margin: 10px;
             padding: 10px 20px;
@@ -52,6 +52,11 @@
         <button onclick="pauseCountdown()">Pause</button>
         <button onclick="resumeCountdown()">Resume</button>
     </div>
+    <div>
+        <label for="toggleMinuteSound">Hammertime</label>
+        <input type="checkbox" id="toggleMinuteSound" checked>
+    </div>
+    
     <div id="progressBarContainer">
         <div id="progressBar"></div>
     </div>
@@ -82,32 +87,35 @@
         }
 
         function updateCountdown() {
-            const now = new Date().getTime();
-            remainingTime = targetTime - now;
+    const now = new Date().getTime();
+    remainingTime = targetTime - now;
 
-            const mins = Math.floor(remainingTime / (1000 * 60));
-            const secs = Math.floor((remainingTime % (1000 * 60)) / 1000);
+    const mins = Math.floor(remainingTime / (1000 * 60));
+    const secs = Math.floor((remainingTime % (1000 * 60)) / 1000);
 
-            document.getElementById("countdown").innerHTML = `${mins}m ${secs}s`;
+    document.getElementById("countdown").innerHTML = `${mins}m ${secs}s`;
 
-            const totalTime = paused ? remainingTime : document.getElementById("timeInput").value * 60 * 1000 || 0;
-            updateProgressBar(((totalTime - remainingTime) / totalTime) * 100);
+    const totalTime = paused ? remainingTime : document.getElementById("timeInput").value * 60 * 1000 || 0;
+    updateProgressBar(((totalTime - remainingTime) / totalTime) * 100);
 
-            // Play sound every minute, only if there is remaining time
-            if (remainingTime > 0) {
-                const newElapsedMinutes = Math.floor((totalTime - remainingTime) / (1000 * 60));
-                if (newElapsedMinutes > elapsedMinutes) {
-                    document.getElementById("minuteSound").play();
-                    elapsedMinutes = newElapsedMinutes;
-                }
-            }
+    // Play sound every minute if toggle is enabled
+    if (remainingTime > 0) {
+        const newElapsedMinutes = Math.floor((totalTime - remainingTime) / (1000 * 60));
+        const toggleChecked = document.getElementById("toggleMinuteSound").checked;
 
-            if (remainingTime <= 0) {
-                clearInterval(countdownInterval);
-                document.getElementById("countdown").innerHTML = "Time's up!";
-                document.getElementById("alertSound").play();
-            }
+        if (newElapsedMinutes > elapsedMinutes && toggleChecked) {
+            document.getElementById("minuteSound").play();
+            elapsedMinutes = newElapsedMinutes;
         }
+    }
+
+    if (remainingTime <= 0) {
+        clearInterval(countdownInterval);
+        document.getElementById("countdown").innerHTML = "Time's up!";
+        document.getElementById("alertSound").play();
+    }
+}
+
 
         function pauseCountdown() {
             if (!paused) {
