@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <img src="BonesForgeMod01orangesmall.png" alt="Bones Forge">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bones Forge Countdown Timer</title>
@@ -43,9 +42,23 @@
             font-size: 2rem;
             margin-top: 20px;
         }
+        ul {
+            list-style-type: none; /* Removes the default bullet point */
+            padding: 0; /* Removes left padding */
+            margin: 0; /* Removes margin */
+        }
+        @media (max-width: 600px) {
+        body {
+            font-size: 14px;
+        }
+        #progressBarContainer {
+            width: 95%;
+        }
+        }
     </style>
 </head>
 <body>
+    <img src="BonesForgeMod01orangesmall.png" alt="Bones Forge">
     <h1>Bones Forge Countdown Timer</h1>
     
     <div>
@@ -55,6 +68,7 @@
     <div>
         <button onclick="pauseCountdown()">Pause</button>
         <button onclick="resumeCountdown()">Resume</button>
+        <button onclick="resetCountdown()">Reset</button>
     </div>
     <div>
         <label for="toggleMinuteSound">Hammertime</label>
@@ -84,9 +98,10 @@
         function startCustomCountdown() {
             const timeInput = document.getElementById("timeInput").value;
             if (!timeInput || timeInput <= 0) {
-                alert("Please enter a valid number of minutes.");
-                return;
-            }
+            alert("Please enter a valid number of minutes.");
+            document.getElementById("timeInput").style.border = "2px solid red";
+            return;
+        }
             startCountdown(Number(timeInput));
         }
 
@@ -125,6 +140,7 @@
             if (!paused) {
                 clearInterval(countdownInterval);
                 paused = true;
+                document.getElementById("countdown").innerHTML += " (Paused)";
             }
         }
 
@@ -135,15 +151,25 @@
                 countdownInterval = setInterval(updateCountdown, 1000);
             }
         }
+        function resetCountdown() {
+                clearInterval(countdownInterval); // Stops the interval
+                document.getElementById("countdown").innerHTML = ""; // Clears the timer display
+                document.getElementById("progressBar").style.width = "0%"; // Resets progress bar
+                document.getElementById("timeInput").value = ""; // Clears the time input field
+                remainingTime = 0; // Resets remaining time
+                paused = false; // Resets pause state
+                elapsedMinutes = 0; // Resets elapsed minutes
+        }
 
         function updateProgressBar(percent) {
             document.getElementById("progressBar").style.width = `${percent}%`;
         }
     </script>
-</body>
-    <nav>
-  <ul>
-    <li><a href="main.html">Main</a></li>
-  </ul>
-</nav>
+            <nav>
+          <ul>
+            <li><a href="main.html">Main</a></li>
+          </ul>
+        </nav>
+    </body>
+    
 </html>
