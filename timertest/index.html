@@ -43,9 +43,9 @@
             margin-top: 20px;
         }
         ul {
-            list-style-type: none; /* Removes the default bullet point */
-            padding: 0; /* Removes left padding */
-            margin: 0; /* Removes margin */
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
         }
         @media (max-width: 600px) {
         body {
@@ -79,8 +79,8 @@
         <div id="progressBar"></div>
     </div>
     <div id="countdown"></div>
-    <audio id="alertSound" src="gong.mp3"></audio> <!-- Example alert sound -->
-    <audio id="minuteSound" src="hammer-strike.mp3"></audio> <!-- Sound that plays every minute -->
+    <audio id="alertSound" src="gong.mp3"></audio>
+    <audio id="minuteSound" src="hammer-strike.mp3"></audio> 
     <script>
         let countdownInterval, targetTime, remainingTime, paused = false;
         let elapsedMinutes = 0;
@@ -90,7 +90,7 @@
             targetTime = new Date().getTime() + minutes * 60 * 1000;
             remainingTime = minutes * 60 * 1000;
             paused = false;
-            elapsedMinutes = 0; // Reset elapsed minutes
+            elapsedMinutes = 0;
             updateProgressBar(0);
             countdownInterval = setInterval(updateCountdown, 1000);
         }
@@ -117,7 +117,6 @@
     const totalTime = paused ? remainingTime : document.getElementById("timeInput").value * 60 * 1000 || 0;
     updateProgressBar(((totalTime - remainingTime) / totalTime) * 100);
 
-    // Play sound every minute if toggle is enabled
     if (remainingTime > 0) {
         const newElapsedMinutes = Math.floor((totalTime - remainingTime) / (1000 * 60));
         const toggleChecked = document.getElementById("toggleMinuteSound").checked;
@@ -152,13 +151,13 @@
             }
         }
         function resetCountdown() {
-                clearInterval(countdownInterval); // Stops the interval
-                document.getElementById("countdown").innerHTML = ""; // Clears the timer display
-                document.getElementById("progressBar").style.width = "0%"; // Resets progress bar
-                document.getElementById("timeInput").value = ""; // Clears the time input field
-                remainingTime = 0; // Resets remaining time
-                paused = false; // Resets pause state
-                elapsedMinutes = 0; // Resets elapsed minutes
+                clearInterval(countdownInterval);
+                document.getElementById("countdown").innerHTML = "";
+                document.getElementById("progressBar").style.width = "0%";
+                document.getElementById("timeInput").value = "";
+                remainingTime = 0;
+                paused = false;
+                elapsedMinutes = 0;
         }
 
         function updateProgressBar(percent) {
