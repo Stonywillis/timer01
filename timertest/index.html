@@ -22,6 +22,17 @@
             font-size: 1rem;
             cursor: pointer;
         }
+        button2 {
+            background-color: #FF0000;
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 5px; 
+            cursor: pointer;
+        }
+        button2:hover {
+            background-color: #0056b3;
+        }
         input {
             padding: 5px;
             font-size: 1rem;
@@ -63,7 +74,7 @@
     
     <div>
         <input type="number" id="timeInput" placeholder="Enter minutes" min="1">
-        <button onclick="startCustomCountdown()">Start Custom Time</button>
+        <button2 onclick="startCustomCountdown()">Start Custom Time</button2>
     </div>
     <div>
         <button onclick="pauseCountdown()">Pause</button>
