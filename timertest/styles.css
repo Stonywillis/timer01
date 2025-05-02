@@ -1,5 +1,21 @@
+h1, h2, h3 {
+    font-family: 'Bungee Spice', sans-serif;
+    font-size: 4rem;
+}
+a {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: orange; 
+    text-decoration: none; 
+}
+
+a:hover {
+    color: red; 
+    text-decoration: underline;
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Cinzel', serif;
     text-align: center;
     background-image: url("lava1.jpg");
     background-size: cover;
